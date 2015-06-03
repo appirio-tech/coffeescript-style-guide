@@ -238,7 +238,7 @@ In cases where method calls are being chained and the code does not fit on a sin
   .reduce((x, y) -> x + y)
 ```
 
-Some time its better to avoid chaining.
+Some time its better to avoid chaining in favor for readability.
 ```coffeescript
 queryParams =
   filter: 'sourceObjectId=' + params.workId
@@ -272,7 +272,7 @@ print inspect value
 new Tag(new Value(a, b), new Arg(c))
 ```
 
-Create meaningful variables when using object/array as arguments.  This will help explain the code.
+Create meaningful variables when using object/array as arguments.  This will help explain the code and reduce confusion with coffee conversion.
 ```coffeescript
 # Yes
 coordinates =
@@ -282,12 +282,12 @@ coordinates =
 brush.ellipse coordinates
 
 # No
-brush.ellipse x: 10, y: 20 
+brush.ellipse x: 10, y: 20
 
 # No
 brush.ellipse
   x: 10
-  y: 20 
+  y: 20
 ```
 
 You will sometimes see parentheses used to group functions (instead of being used to group function parameters). Examples of using this style (hereafter referred to as the "function grouping style"):
