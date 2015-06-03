@@ -209,12 +209,6 @@ For constants, use all uppercase with underscores:
 CONSTANT_LIKE_THIS
 ```
 
-Methods and variables that are intended to be "private" should begin with a leading underscore:
-
-```coffeescript
-_privateMethod: ->
-```
-
 <a name="functions"/>
 ## Functions
 
@@ -244,12 +238,30 @@ In cases where method calls are being chained and the code does not fit on a sin
   .reduce((x, y) -> x + y)
 ```
 
+Some time its better to avoid chaining.
+```coffeescript
+queryParams =
+  filter: 'sourceObjectId=' + params.workId
+
+resource = TimelineAPIService.query queryParams
+
+resource.$promise.then (response) ->
+  for item in resource
+    item.sourceObjectContent.handle += '1'
+
+  buildTimeline response, onChange
+
+resource.$promise.catch ->
+  #TODO: handle error
+
+resource.$promise.finally ->
+  #TODO: handle finally
+```
+
 When calling functions, choose to omit or include parentheses in such a way that optimizes for readability. Keeping in mind that "readability" can be subjective, the following examples demonstrate cases where parentheses have been omitted or included in a manner that the community deems to be optimal:
 
 ```coffeescript
 baz 12
-
-brush.ellipse x: 10, y: 20 # Braces can also be omitted or included for readability
 
 foo(4).bar(8)
 
@@ -258,6 +270,24 @@ obj.value(10, 20) / obj.value(20, 10)
 print inspect value
 
 new Tag(new Value(a, b), new Arg(c))
+```
+
+Create meaningful variables when using object/array as arguments.  This will help explain the code.
+```coffeescript
+# Yes
+coordinates =
+  x: 10
+  y: 20
+
+brush.ellipse coordinates
+
+# No
+brush.ellipse x: 10, y: 20 
+
+# No
+brush.ellipse
+  x: 10
+  y: 20 
 ```
 
 You will sometimes see parentheses used to group functions (instead of being used to group function parameters). Examples of using this style (hereafter referred to as the "function grouping style"):
@@ -288,14 +318,14 @@ The function grouping style is not recommended. However, **if the function group
 <a name="strings"/>
 ## Strings
 
-Use string interpolation instead of string concatenation:
+Dont use string interpolation instead of string concatenation:
 
 ```coffeescript
-"this is an #{adjective} string" # Yes
-"this is an " + adjective + " string" # No
+"this is an #{adjective} string" # No
+'this is an ' + adjective + ' string' # Yes
 ```
 
-Prefer single quoted strings (`''`) instead of double quoted (`""`) strings, unless features like string interpolation are being used for the given string.
+Prefer single quoted strings (`''`) instead of double quoted (`""`) strings.
 
 <a name="conditionals"/>
 ## Conditionals
