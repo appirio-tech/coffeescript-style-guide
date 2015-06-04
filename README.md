@@ -43,27 +43,27 @@ TimelineController = (TimelineService, $stateParams) ->
   vm.feedback2Handle  = null
 
   mapEvents = [
-    ['submitted', 'submitted']
-    ['email', 'email-verified']
-    ['quote', 'quote-created']
-    ['payment', 'payment-accepted']
-    ['coPilot', 'copilot-assigned']
-    ['launched', 'launched']
-    ['joined', 'challenge-member-registered']
-    ['submissions', 'challenge-submission']
-    ['feedback', 'challenge-feedback-provided']
-    ['checkpoint1', 'checkpoint1']
-    ['finalists', 'finalists']
-    ['finalistsSelected', 'challenge-finalists-selected']
-    ['finalDesign', 'final-design']
-    ['winner', 'winner']
-    ['finalFeedback', 'final-feedback']
-    ['completed', 'completed']
+    { key: 'submitted', value: 'submitted' }
+    { key: 'email', value: 'email-verified' }
+    { key: 'quote', value: 'quote-created' }
+    { key: 'payment', value: 'payment-accepted' }
+    { key: 'coPilot', value: 'copilot-assigned' }
+    { key: 'launched', value: 'launched' }
+    { key: 'joined', value: 'challenge-member-registered' }
+    { key: 'submissions', value: 'challenge-submission' }
+    { key: 'feedback', value: 'challenge-feedback-provided' }
+    { key: 'checkpoint1', value: 'checkpoint1' }
+    { key: 'finalists', value: 'finalists' }
+    { key: 'finalistsSelected', value: 'challenge-finalists-selected' }
+    { key: 'finalDesign', value: 'final-design' }
+    { key: 'winner', value: 'winner' }
+    { key: 'finalFeedback', value: 'final-feedback' }
+    { key: 'completed', value: 'completed' }
   ]
 
   activate = ->
     for mapEvent in mapEvents
-      vm[mapEvent[0]] =
+      vm[mapEvent.key] =
         passed   : false
         completed: false
 
@@ -85,11 +85,11 @@ TimelineController = (TimelineService, $stateParams) ->
 
   setStatus = (timeline) ->
     for mapEvent in mapEvents
-      vm[mapEvent[0]].completed = timeline.createdDates?[mapEvent[1]]
+      vm[mapEvent.key].completed = timeline.createdDates?[mapEvent.value]
 
     for mapEvent, i in mapEvents
       if mapEvents[i + 1]
-        vm[mapEvent[0]].passed = vm[mapEvents[i + 1][0]].completed
+        vm[mapEvent.key].passed = vm[mapEvents[i + 1].key].completed
 
   activate()
 
